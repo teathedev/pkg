@@ -44,6 +44,14 @@ func ValidateStruct[T any](data *T) *errors.CustomError {
 	return errors.NewBadInput("Validation", errParams)
 }
 
+func RegisterValidation(
+	tag string,
+	validatorFn func(fl _validator.FieldLevel) bool,
+	callValidationEvenIfNull ...bool,
+) error {
+	return validate.RegisterValidation(tag, validatorFn, callValidationEvenIfNull...)
+}
+
 func init() {
 	// use json tags as err.Field()
 	validate.RegisterTagNameFunc(func(fld reflect.StructField) string {
